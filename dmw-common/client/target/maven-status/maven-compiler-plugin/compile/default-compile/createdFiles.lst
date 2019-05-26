@@ -1,0 +1,4 @@
+com\szxs\feign\UserFeignClient.class
+com\szxs\fallback\DmItemTypeFeignClientFallback.class
+com\szxs\feign\DmItemTypeFeignClient.class
+com\szxs\fallback\UserFeignClientFallback.class

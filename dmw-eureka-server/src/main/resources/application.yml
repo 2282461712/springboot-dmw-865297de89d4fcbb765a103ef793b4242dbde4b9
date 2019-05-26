@@ -1,0 +1,17 @@
+server:
+  port: 7776
+
+#配置注册中心，不注册！！
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://root:dmw@localhost:7776/eureka/
+
+security:
+  user:
+    name: root
+    password: dmw
+  basic:
+    enabled: true

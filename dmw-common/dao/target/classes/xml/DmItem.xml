@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szxs.mapper.DmItemMapper">
+
+    <!--查询轮播图-->
+    <select id="queryBanner" resultType="VoItem">
+        SELECT d.id,d.itemName,d.minPrice FROM dm_item d
+    </select>
+    <!--今日推荐-->
+    <select id="queryTodayRecommend" resultType="VoItem">
+        SELECT d.id,d.itemName,d.minPrice FROM dm_item d
+    </select>
+    <!--B7热门演出推荐排行-->
+    <select id="queryHotItems" resultType="VoItem">
+        SELECT d.id,d.itemName,d.minPrice FROM dm_item d
+        WHERE d.itemType1Id = #{itemTypeId}
+    </select>
+    <!--C1音乐会专区-->
+    <select id="queryItemByAge" resultType="VoItems">
+        SELECT i.id,i.itemName,i.endTime,i.startTime,i.minPrice,c.areaId,c.areaName,c.address
+        FROM  dm_item i,dm_cinema c
+        WHERE i.cinemaId=c.id AND i.ageGroup = #{ageGroup} LIMIT #{limit}
+    </select>
+    <!--C2精彩聚集(2)-->
+    <select id="queryAdvertising" resultType="VoItems">
+        SELECT i.id,i.itemName,i.endTime,i.startTime,i.minPrice,c.areaId,c.areaName,c.address
+        FROM  dm_item i,dm_cinema c
+        WHERE i.cinemaId=c.id AND i.itemType1Id = #{itemTypeId} LIMIT #{limit}
+    </select>
+    <!--C7.根据月份查询剧场-->
+    <select id="queryItemByMonth" resultType="VoItems">
+        SELECT i.id,i.itemName,i.endTime,i.startTime,i.minPrice,c.areaId,c.areaName,c.address
+        FROM  dm_item i,dm_cinema c WHERE i.cinemaId=c.id AND  i.itemType1Id = #{itemTypeId} AND i.startTime &gt; #{start} AND i.endTime &lt; #{end}
+    </select>
+
+    <!--C6热门排行-->
+    <select id="queryItemHot" resultType="VoItems">
+        SELECT i.id,i.itemName,i.endTime,i.startTime,i.minPrice,c.areaId,c.areaName,c.address
+        FROM  dm_item i,dm_cinema c
+        WHERE i.cinemaId=c.id AND c.areaId = #{areaId} LIMIT #{limit}
+    </select>
+    <!--c5精彩聚集1-->
+    <select id="queryItemNice" resultType="VoItems">
+        SELECT d.id,d.itemName,d.startTime,d.endTime,
+                d.minPrice,c.areaId,c.areaName,c.address
+        FROM dm_item d,dm_cinema c
+        WHERE c.id=d.cinemaId AND d.`itemType1Id`=#{itemTypeId}
+        LIMIT #{limit}
+    </select>
+    <!--e1根据id查询剧场详情-->
+    <select id="queryItemDetail" resultType="VoItemDetail">
+       SELECT d.id,d.itemName,d.abstractMessage,d.itemType1Id,d.itemType1Name,
+       d.itemType2Id,d.itemType2Name,d.startTime,d.endTime,
+       d.state,d.basicDescription,d.projectDescription,d.reminderDescription,
+       d.cinemaId,d.avgScore,d.commentCount,
+       c.areaId,c.areaName,c.latitude,c.longitude
+        FROM dm_item d,dm_cinema c
+      where c.id=d.cinemaId and d.cinemaId=#{id}
+    </select>
+    <!--b5即将出售-->
+    <select id="queryToSaleItem" resultType="VoItem">
+        select id,itemName,minPrice  from dm_item where state = 2
+    </select>
+</mapper>
